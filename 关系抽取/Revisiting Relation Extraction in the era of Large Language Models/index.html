@@ -1,0 +1,630 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+        <meta name="author" content="xiaoming">
+      
+      
+      
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.4">
+    
+    
+      
+        <title>Revisiting Relation Extraction in the era of Large Language Models - Xiaoming's library</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.bd3936ea.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.356b1318.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="cyan" data-md-color-accent="cyan">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#abstract" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="Xiaoming&#39;s library" class="md-header__button md-logo" aria-label="Xiaoming's library" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Xiaoming's library
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Revisiting Relation Extraction in the era of Large Language Models
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="cyan" data-md-color-accent="cyan"  aria-label="切换至夜间模式"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="切换至夜间模式" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3 3.19.09m3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95 2.06.05m-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="cyan"  aria-label="切换至日间模式"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="切换至日间模式" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5c-.84 0-1.65.15-2.39.42L12 2M3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29L3.34 7m.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14L3.36 17M20.65 7l-1.77 3.79a7.023 7.023 0 0 0-2.38-4.15l4.15.36m-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29L20.64 17M12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44L12 22Z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="分享" aria-label="分享" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7 0-.24-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91 1.61 0 2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08Z"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="./" class="md-tabs__link">
+          
+  
+  关系抽取
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Xiaoming&#39;s library" class="md-nav__button md-logo" aria-label="Xiaoming's library" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Xiaoming's library
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+    
+  
+  
+    
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    关系抽取
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            关系抽取
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Revisiting Relation Extraction in the era of Large Language Models
+  </span>
+  
+
+      </a>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+  
+<nav class="md-tags" >
+  
+    
+    
+    
+      <span class="md-tag">NLP</span>
+    
+  
+    
+    
+    
+      <span class="md-tag">RelationExtraction</span>
+    
+  
+    
+    
+    
+      <span class="md-tag">LLM</span>
+    
+  
+</nav>
+
+
+
+<p>Resource :: ACL2023</p>
+<p>一句话描述 :: 用<strong>大模型</strong>进行关系抽取，GPT3<strong>思维链微调</strong>后Flan-T5模型达到SOTA效果</p>
+<h1 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h1>
+<p>Relation Extraction : </p>
+<p><strong>关系提取</strong>（RE）是从文本中推断实体之间语义关系的核心NLP任务。 标准监督的RE技术需要将培训模块标记为包括实体跨度的代币，然后预测它们之间的关系。 相反，最近的工作将问题视为<strong>seq2seq</strong>任务，将实体之间的关系线性化为在输入上生成的目标字符串。 在这里，我们使用更大的语言模型（GPT-3和Flan-t5大）来推动这种方法的限制，该模型比先前的工作中所考虑的，并在不同的监督水平下评估其在标准RE任务上的绩效。 我们解决了通过进行人体评估来代替确切匹配的人类评估来评估生成方法固有的问题。 在这项精致的评估下，我们发现：（1）几乎没有GPT-3的射击促使SOTA性能，即大致相当于现有的完全监督的模型； （2）Flan-T5在几个弹射设置中没有能力，而是用<strong>思想链（COT）</strong> 样式的解释（通过GPT-3生成）对其进行监督和微调会产生SOTA结果。 我们将此模型作为RE Tasks1的新基线</p>
+<h1 id="motivation">motivation<a class="headerlink" href="#motivation" title="Permanent link">&para;</a></h1>
+<p>关系抽取：
+句子或文章中抽出 triple：<code>&lt;entity,relation,entity&gt;</code></p>
+<p>传统方法：实体识别+关系抽取
+pipeline方法或joint方法，先进行实体识别，然后在闭集上进行关系的分类，或者同时进行实体识别和关系分类，类似1-stage或2-stage</p>
+<p>S2S方法：
+后出现sequence2sequence，视为输入句子序列，生成triple序列，将句子和triple都序列化，变成gernerate的问题，这样可以使用一些预训练模型如BART进行关系抽取任务。</p>
+<p>大型预训练模型的出现带来了提升关系抽取效果的契机。</p>
+<h1 id="_1">主要贡献<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<ul>
+<li><strong>few-shot</strong>的GPT-3可以达到全监督模型下的sota</li>
+<li>Flan-T5即使经过微调效果也不如sota，但是使用GPT-3生成的<strong>思维链CoT</strong>风格，可以达到Sota效果</li>
+<li>关系抽取的<strong>严格评估</strong>对生成式关系抽取不适用，原先是闭集的分类，如果对生成式模型进行严格标签验证，会很多错误，使用人工来评估</li>
+</ul>
+<h1 id="_2">实验数据集<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h1>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>entity types</th>
+<th>relation types</th>
+<th>No. of relation triples  train</th>
+<th>No. of relation triples  val</th>
+<th>No. of relation triples  test</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ADE</td>
+<td>2</td>
+<td>1</td>
+<td>4272</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>CoNLL04</td>
+<td>4</td>
+<td>5</td>
+<td>922</td>
+<td>231</td>
+<td>288</td>
+</tr>
+<tr>
+<td>NYT</td>
+<td>4</td>
+<td>24</td>
+<td>56196</td>
+<td>5000</td>
+<td>5000</td>
+</tr>
+<tr>
+<td>DocRED</td>
+<td>6</td>
+<td>96</td>
+<td>3008</td>
+<td>300</td>
+<td>700</td>
+</tr>
+</tbody>
+</table>
+<p><strong>ADE</strong> Adverse Drug Events (Gurulingappa et al., 2012) contains binary relations of <code>(drug, adverse event)</code> pairs. Drugs and adverse events are the only two entity types. This dataset provides a 10-fold split. </p>
+<p><strong>CONLL04</strong> The CoNLL04 consists of sentences from news articles that were annotated for the mentioned entities and relations between entities (Roth and Yih, 2004). It includes <strong>four entity types</strong> <code>(PER, ORG, LOC, OTH)</code> and <strong>five possible relations</strong> <code>(KILL, WORK_FOR, LIVE_IN, LOCATED_IN, ORG_BASED_IN)</code>. </p>
+<p><strong>NYT</strong> The NYT comprises sentences sampled from New York Times news articles published between 1987 and 2007 (Riedel et al., 2010). The data <strong>was distantly annotated with relations triplets from FreeBase</strong>. We use a processed version of NYT (Zeng et al., 2018) containing <strong>three overlapping entity types</strong> <code>(LOC, PER, ORG)</code> and <strong>24 relation types</strong>. </p>
+<p><strong>DocRED</strong> Originally designed as a relation classification task, DocRED (Yao et al., 2019) differs considerably from the other datasets considered in this work in two important ways: (1) It comprises <strong>long texts</strong> which feature relations between entities at a <strong>document-level</strong>; (2) It contains annotations for <strong>6 entity types</strong> and <strong>96 relation types</strong>, with <strong>an average of 19.9 entities</strong> and <strong>19.5 relation instances per document</strong>.</p>
+<p>四个数据集从小到大
+（文档级关系抽取？）</p>
+<h1 id="_3">实验<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h1>
+<p>实验主要分为两个部分：
+- 在GPT-3上的<strong>zero-shot</strong>和<strong>few-shot</strong>，（使用prompt）
+- 在Flan-T5上的<strong>zero-shot</strong>，<strong>few-shot</strong>（使用prompt）和使用GPT-3生成的CoT（思维链）进行微调</p>
+<h1 id="gpt-3">GPT-3上的实验<a class="headerlink" href="#gpt-3" title="Permanent link">&para;</a></h1>
+<p>在GPT-3上的实验通过<strong>prompt微调</strong>来实现，给模型输入一段上下文示例和输出的示例，用于prompt微调。
+输入和输出都是序列合集：
+<strong>Input</strong> Bill Nelson, NASA administrator announced the mars mission today. 
+<strong>Target</strong> <code>[(Bill Nelson:Per, Work_For, NASA:Org)]</code></p>
+<p>下面是各个数据集的prompt示例：</p>
+<blockquote>
+<p>[!note] 
+这里的explanation属于CoT思维链部分，在GPT-3上的实验没有使用，而是在Flan-T5实验中使用。</p>
+</blockquote>
+<h2 id="adeprompt">ADE数据集上的prompt<a class="headerlink" href="#adeprompt" title="Permanent link">&para;</a></h2>
+<p>在ADE数据集上，给出一个<strong>Example Instructional Prefix</strong>，用于提示性描述任务。
+然后从训练集中随机选择了12个例子，每个例子都跟在<strong>Example Instructional Prefix</strong>后面，包含输入和输出。
+12个例子共755个tokens。</p>
+<p>对于新序列的预测，我们使用相同的<strong>Example Instructional Prefix</strong> ，要求其生成目标序列。
+sampleling temperature设置为0.5，最长输入序列为256个tokens。</p>
+<p><strong>Example Instructional Prefix</strong>: List all <code>[drug, adverse effects]</code> pairs in the TEXT provided below.</p>
+<p><strong>TEXT</strong>: CD4 T-lymphocyte depletion, myelosuppression, and subsequent severe infections are the major side effects of fludarabine phosphate therapy. </p>
+<p><strong>Relations</strong>: <code>[[’fludarabine phosphate’, ’CD4 T-lymphocyte depletion’], [’fludarabine phosphate’, ’myelosuppression’], [’fludarabine phosphate’, ’severe infections’]]</code> </p>
+<p><strong>Explanation</strong>: Following major side-effects are known of fludarabine phosphate therapy, CD4 T-lymphocyte depletion, myelosuppression, and severe</p>
+<h2 id="conll04prompt">CONLL04数据集上的prompt<a class="headerlink" href="#conll04prompt" title="Permanent link">&para;</a></h2>
+<p>在CONLL04上的promp和ADE上的类似，同样使用12个例子进行训练，prompt包含960 tokens</p>
+<p><strong>Examplee Instructional Prefix</strong>: List the relations of the types <code>[OrgBased In, Work For, Located In, Live In, Kill]</code> among the entities <code>[PERSON, LOCATION, ORGANIZATION, OTHER]</code> in the given text and provide a reasonable explanation.<code>&lt;s&gt;</code></p>
+<p><strong>TEXT</strong>: Meanwhile, Shi Liming at the Institute of Zoology of Kunming found that pandas lack variety in their protein heredity, which may serve as one of the major reasons for pandas’ near extinction. 
+<strong>Relations</strong>: <code>[[’Shi Liming:Per’, ’Work For’, ’Institute of Zoology:Org’], [’Institute of Zoology:Org’, ’OrgBased In’, ’Kunming:Loc’]]</code> 
+<strong>Explanation</strong>: Shi Liming works for the Institute of Zoology, which is an organization based in Kunming.<code>&lt;s&gt;</code></p>
+<h2 id="nytprompt">NYT数据集上的prompt<a class="headerlink" href="#nytprompt" title="Permanent link">&para;</a></h2>
+<p>因为NYT中包含24种关系，所以不能通过<strong>Examplee Instructional Prefix</strong>将所有关系列出来，因此在<strong>Examplee Instructional Prefix</strong>中不再罗列关系，然后使用20个例子进行微调。prompt包含2095个tokens</p>
+<p><strong>TEXT</strong>: Quebec, Canada’s second most populous province, after Ontario, has not decided to go that far. 
+<strong>Relations</strong>: <code>[[’Ontario:Loc’, ’/location/administrative-division/country’, ’Canada:Loc’], [’Canada:Loc’, ’/location/location/contains’, ’Ontario:Loc’], [’Canada:Loc’, ’/location/country/administrative-divisions’, ’Ontario:Loc’]]</code> 
+<strong>Explanation</strong>: Ontario is a place located in the administrative divisions of the country Canada. Quebec is Canada’s second most populous province and hence, Canada is a place that contains Quebec.<code>&lt;s&gt;</code></p>
+<h2 id="_4">实验结果<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<h3 id="_5">结果评估问题<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
+<p>错误问题：
+GPT生成的paires/triples在实际上如果按照严格对应的关系进行评估，会出现一些错误现象。比如将原本为真阴性的例子被分类为假阴性（ADE例子），真阳性被分为了假阳性（NYT例子），或者是产生了一些在原先闭集外的关系，这种关系与示例triple中的关系有强关联，比如示例为kill，生成关系为 shot_by。这为评估带来了麻烦。</p>
+<p>![[Pasted image 20230924050126.png]]</p>
+<p>在ADE数据集上，51.67%的假阳性其实是真阳性，32.61%的假阴性实际上是真阴性
+在CoNLL数据集上，50.27%的假阳性是真正分类正确的，36.6%的假阴性实际上是准确的</p>
+<p>而在NYT数据集上，因为prompt长度的问题，将在CoT微调的Flan-T5上进行评估。36.9%的假阳性和22.97%的假阴性是准确的。</p>
+<blockquote>
+<p>[!question] 
+这里感觉他的写法有点怪，两个数据集上没有用同一种描述方法，不确定是否为笔误。</p>
+</blockquote>
+<p>![[Pasted image 20230924050103.png]]</p>
+<p>REBEL是将RE转化为S2S的生成任务的模型，使用BART作为基准，进行预训练和微调。为此前全监督RE的SOTA。
+可以看到使用GPT-3进行prompt微调后的模型可以<strong>在CONLL和ADE两个数据集上达到SOTA效果</strong>，但是在<strong>NYT上的效果比SOTA下降了近30个点</strong>，因为在NYT上的prompt没有将可能的关系列出来，因为token长度过长。虽然多使用了20个train example，但是效果很差。同时产生了10.6%的无效序列和空序列，这也是prompt中没有足够信息的大模型生成式关系抽取的劣势。</p>
+<blockquote>
+<p>[!attention] 
+在长文本或者大量目标的情况下，大模型无法在prompt中进行结构化的问题描述</p>
+<p>[!note] 
+此处可能是可以改进的点，大模型在多关系分类中由于无法在prompt中将所有可能关系罗列出来，因此分类效果差，通过传统微调或者CoT思维链等方式改进其效果。</p>
+</blockquote>
+<h1 id="flan-t5">Flan-T5上的实验<a class="headerlink" href="#flan-t5" title="Permanent link">&para;</a></h1>
+<p>Flan-T5，（后简称T5），使用和GPT-3上相同的结构化提示和prompt，但是因为T5的参数量更少，可接收的prompt长度更短，因此减少了输入示例的数量。</p>
+<p>ADE上的结果
+示例数量由GPT-3的12个减少为7个，输出的不合格关系的数量增加了约13.9%
+包含重复产生同一组token或者生成的关系序列中超过或少于两个实体。
+F1分数比GPT减少20</p>
+<p>CoNLL上的结果
+CoNLL同样将示例减少为7个，不合格关系数量增加约12.5%。
+同时会产生大量超过闭集中的关系，导致其评估产生困难。</p>
+<p>NYT上无法输入结构化提示的prompt，因此无法类似实验。但是在后面使用微调解决了这个问题。</p>
+<p>微调
+使用可用数据集进行全监督微调，效果在表中1.e表示，可以达到SOTA效果
+为了提升微调的效果，使用GPT3得到的CoT思维链进行微调，包括对关系抽取的explanation。
+然后将思维链作为附加文本输入GPT和T5中进行生成。</p>
+<p>![[Pasted image 20230930150545.png]]</p>
+<p>使用思维链对GPT进行微调，如图所示，
+GPT3在ADE和CoNLL上的micro-F1分数分别提升了3和2.2
+同时，不合格关系的产生也大幅度减少。
+ADE:13.9%-0.8%
+CoNLL:12.5%-1.1%
+同时，CoNLL上的超出闭集关系由120个减少到1个</p>
+<p>Flan-T5上使用思维链进行微调，结果为表中f，效果超过了sota</p>
+<p>上面的实验使用标准标签和GPT生成的思维链对Flan-T5进行微调，现在尝试使用GPT生成的标签和思维链对T5进行微调，来对实验进行进一步改进。而这样需要GPT在整个数据集上进行推理，因为仅在CoNLL进行实验。
+使用12个例子对GPT进行微调，然后再CoNLL剩下的1557个例子上进行推理产生标签和explanation的思维链。</p>
+<p>这种方法优于现有的全监督方法，但是不如使用标准标签的效果结果为表中 2.c</p>
+<p>未来方向：使用模型进行自动评估？BERT分类器</p>
+<p>限制：
+- 避开了复杂RE数据集，比如n元关系的，也不能在长文本多关系的数据集上运行，因为prompt长度
+- 没有评估生成的思维链解释的质量，可能对模型表现有影响
+- 不能在GPT上微调使用思维链，权重无法保存本地运行。
+- 仅在英文数据集上测试，没有在其他语言上测试。</p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2023赵启明
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/DylanMing/library" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.top", "navigation.path", "search.share", "search.suggest", "search.highlight"], "search": "../../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.94c44541.min.js"></script>
+      
+        <script src="../../javascripts/extra.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>
