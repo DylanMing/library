@@ -1,6 +1,6 @@
-# Welcome to MkDocs
+# 销明的个人网站
 
-For full documentation visit [mkdocs.org](https://www.mkdocs.org).
+这里是销明自己尝试使用mkdocs和githubpages
 
 ## Commands
 

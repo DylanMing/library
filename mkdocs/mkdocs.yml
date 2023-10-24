@@ -58,9 +58,7 @@ theme:
 nav: 
   - 关系抽取:
     - Revisiting Relation Extraction in the era of Large Language Models: 关系抽取/Revisiting Relation Extraction in the era of Large Language Models.md
-  - 大模型:
-  - 推荐系统:
-  - CV:
+
 
 
 
