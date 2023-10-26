@@ -1,0 +1,622 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+        <meta name="author" content="xiaoming">
+      
+      
+      
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.4">
+    
+    
+      
+        <title>RE Matching： A Fine Grained Semantic Matching Method for Zero Shot Relation Extraction - Xiaoming's library</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.bd3936ea.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.356b1318.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="cyan" data-md-color-accent="cyan">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#abstract" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="Xiaoming&#39;s library" class="md-header__button md-logo" aria-label="Xiaoming's library" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Xiaoming's library
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              RE Matching： A Fine Grained Semantic Matching Method for Zero Shot Relation Extraction
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="cyan" data-md-color-accent="cyan"  aria-label="切换至夜间模式"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="切换至夜间模式" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3 3.19.09m3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95 2.06.05m-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="cyan"  aria-label="切换至日间模式"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="切换至日间模式" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5c-.84 0-1.65.15-2.39.42L12 2M3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29L3.34 7m.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14L3.36 17M20.65 7l-1.77 3.79a7.023 7.023 0 0 0-2.38-4.15l4.15.36m-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29L20.64 17M12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44L12 22Z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="分享" aria-label="分享" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7 0-.24-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91 1.61 0 2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08Z"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../Revisiting%20Relation%20Extraction%20in%20the%20era%20of%20Large%20Language%20Models/" class="md-tabs__link">
+          
+  
+  关系抽取
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Xiaoming&#39;s library" class="md-nav__button md-logo" aria-label="Xiaoming's library" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Xiaoming's library
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    关系抽取
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            关系抽取
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Revisiting%20Relation%20Extraction%20in%20the%20era%20of%20Large%20Language%20Models/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Revisiting Relation Extraction in the era of Large Language Models
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../RE-Matching： A Fine-Grained Semantic Matching Method for Zero-Shot Relation Extraction.md" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    RE-Matching： A Fine-Grained Semantic Matching Method for Zero-Shot Relation Extraction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+  
+<nav class="md-tags" >
+  
+    
+    
+    
+      <span class="md-tag">NLP</span>
+    
+  
+    
+    
+    
+      <span class="md-tag">RelationExtraction</span>
+    
+  
+    
+    
+    
+      <span class="md-tag">语义匹配</span>
+    
+  
+    
+    
+    
+      <span class="md-tag">zero-shot</span>
+    
+  
+</nav>
+
+
+
+<p>Resource :: ACL2023-main</p>
+<p>一句话描述 :: 使用细粒度语义匹配进行zero-shot的关系抽取，对输入和description进行实体匹配和忽略冗余上下文的文本匹配。</p>
+<h1 id="abstract">abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h1>
+<p>Semantic matching is a mainstream paradigm of zero-shot relation extraction, which matches a given input with a corresponding label description. The entities in the input should exactly match their hypernyms in the description, while the irrelevant contexts should be ignored when matching. However, general matching methods lack explicit modeling of the above matching pattern. In this work, we propose a fine-grained semantic matching method tailored for zero-shot relation extraction. Following the above matching pattern, we decompose the sentence-level similarity score into entity and context matching scores. Due to the lack of explicit annotations of the redundant components, we design a feature distillation module to adaptively identify the relationirrelevant features and reduce their negative impact on context matching. Experimental results show that our method achieves higher matching F1 score and has an inference speed 10 times faster, when compared with the stateof-the-art methods.</p>
+<h1 id="motivation">Motivation<a class="headerlink" href="#motivation" title="Permanent link">&para;</a></h1>
+<p>语义匹配是关系抽取零样本学习的主流方法，将输入与对应的标签描述相匹配。实体应该和描述中的上位词相匹配，而匹配时应该忽略无关的上下文。一般的匹配方法缺少显式的匹配模式建模。</p>
+<p>![[Pasted image 20231015031521.png]]</p>
+<p>语义匹配的例子。<code>organization</code>是<code>Apple</code>的上位词，<code>city</code>是<code>California</code>的上位词，<code>is located in a</code>和 <code>situated at</code> 是匹配上下文，<code>is a great company</code> 是多余上下文。</p>
+<ul>
+<li>siamese ：分别编码输入和描述，再进行匹配，优势在于描述编码可以重复使用快速推理，但是交互不足限制匹配性能。</li>
+<li>full encodeing：使用自注意力机制编码，交互丰富，计算开销大</li>
+</ul>
+<p>本文综合了两种方法</p>
+<h1 id="_1">贡献<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<p>本文提出了一种用于零样本关系抽取细粒度语义匹配方法。将句子相似度分解为实体匹配得分和上下文匹配得分。
+对于缺少明确标注的多余上下文，设计了一个特征蒸馏模块来自适应识别不相关的特征并减少他们对文本匹配的负面影响。
+- 针对zeroRE的细粒度语义匹配方法，显式建模了关系数据的匹配模式
+- 提出上下文蒸馏方法，减少冗余上下文的负面影响。
+- 和SOTA比F1分数更高并且推理速度快10倍。</p>
+<h1 id="_2">方法<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h1>
+<p>将编码和匹配分为两个模块，编码采用siamese，即分别编码输入和描述，可以重复使用描述编码，而使用匹配模块进行细粒度的交互。
+遵循关系数据的匹配模式，句子的相似度得分被分解为实体匹配和上下文匹配得分两个部分。
+为了处理没有显式标注的冗余上下文，设计了一个特征蒸馏模块，最大化分类损失的上下文特征被识别为与关系无关的特征。</p>
+<h2 id="zero-shot-re">零样本关系抽取zero-shot RE<a class="headerlink" href="#zero-shot-re" title="Permanent link">&para;</a></h2>
+<p>目标是从已有的关系 <span class="arithmatex">\(R_s={r^{s}_{1},r^{s}_{2},\dots,r^{s}_{n}}\)</span> 中学习，并推广到未训练过的关系<span class="arithmatex">\(R_u=\{r^{u}_{1},r^{u}_{2},\dots,r^{u}_{n}\}\)</span> ，这两个集合不相交。
+对于包含N个样本的给定训练集<span class="arithmatex">\(<span class="arithmatex">\(D=\{(x_{i},e_{i1},e_{i2},y_{i},d_{i})|i=1,\dots，N\}\)</span>\)</span>
+每个样本包含输入实例<span class="arithmatex">\(x_{i}\)</span> ，目标实体对<span class="arithmatex">\(e_{i1},e_{i2}\)</span> ，关系<span class="arithmatex">\(y_{i}\)</span> ，和关系描述<span class="arithmatex">\(d_{i}\)</span> 。
+匹配模型<span class="arithmatex">\(<span class="arithmatex">\(M(x,e_{1},e_{2},d)\rightarrow s\in\mathbb{R}\)</span>\)</span>
+s表示输入实例x和关系描述d之间的语义相似度得分。
+测试时，将匹配模型M迁移，提取<span class="arithmatex">\(R_{u}\)</span> 中未见过的关系，即给定一个表示<span class="arithmatex">\(R_{u}\)</span> 中未见过的关系的样本<span class="arithmatex">\((x_{j},e_{j1},e_{j2})\)</span>，查找描述与输入有最高的相似度得分的关系<span class="arithmatex">\(\hat{y}_{j}\)</span> </p>
+<p>![[Pasted image 20230924152751.png]]</p>
+<p>图2：提出的重匹配方法的概述。 输入实例和候选关系描述（左侧）分别编码以提高效率。 为了建模关系数据的匹配模式，我们按实体和上下文匹配（中间）计算相似性。 此外，我们设计了一个蒸馏模块，以减少无关组件（输入中的灰色部分）对上下文匹配（右侧）的影响。</p>
+<h2 id="_3">编码模块<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<p>编码模块分为关系描述编码和输入实例编码，将实体和上下文信息编码为固定长度的表示，以供后续的细粒度匹配。</p>
+<h3 id="_4">关系描述编码<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
+<p>每一个关系描述对应一种关系，如关系 <code>headquartered_in</code> 对应描述 <code>the headquarters of an organization is located in a place</code></p>
+<p>构建实体描述的方法：
+keyword：使用上位词，如关系 <code>headquartered_in</code> ，<span class="arithmatex">\(d^{h}\)</span>是<code>organization</code>，<span class="arithmatex">\(d^{t}\)</span>是<code>place</code>
+synonyms：使用同义词，从wikidata和Thesaurus两个数据库种提取的上位词含义完全相同或者几乎相同的单词。例然后将<span class="arithmatex">\(d^h\)</span> 拓展为 <code>organization, institution, company</code></p>
+<p>Rule-based Template Filling: 基于模板的规则填充，prompt learning的启发，可以将同义词扩展的上位词序列填充到一些有空位的模板上，如 <code>the head/tail entity types including [S], [S], .</code>然后将<span class="arithmatex">\(d^h\)</span> 扩展为 <code>the head entity types including organization, institution, company</code>。但是本文没有使用，留待以后的工作。</p>
+<p>关系描述编码对描述<span class="arithmatex">\(\{d\in d_{r_{i}^{s}}|i=1,\dots,n\}\)</span>编码,使用修改后的Sentence-BERT，编码头实体，尾实体和匹配文本为<span class="arithmatex">\(d^{h},d^{t},d\)</span></p>
+<h3 id="_5">输入实例编码<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
+<p>输入实例编码使用BERT，编码头实体，尾实体和匹配文本为<span class="arithmatex">\(x_{i}^{h},x_{i}^{t},x_{i}\)</span> </p>
+<p>对于输入实例<span class="arithmatex">\(<span class="arithmatex">\(x_{i}=\{ w_{1},w_{2,}\dots,w_{n}\}\)</span>\)</span>
+使用四个特殊tokens来标记实体<span class="arithmatex">\(<span class="arithmatex">\([E_{h}],[\E_{h}],[E_{t}],[\E_{t}]\)</span>\)</span>
+通过maxpool对应实体token的隐藏状态来获得实体表示<span class="arithmatex">\(x_{i}^{h},x_{i}^{t}\)</span> ，而对应的上下文信息由特殊token<span class="arithmatex">\([E_{h}],[E_{t}]\)</span>
+的隐藏状态拼接得到。</p>
+<p>$$
+\begin{gathered}
+\boldsymbol{h}<em b_h="b_h">1, \ldots, \boldsymbol{h}_n=\operatorname{BERT}\left(w_1, \ldots, w_n\right) \
+\boldsymbol{x}_i^h=\operatorname{MaxPool}\left(\boldsymbol{h}</em>, \ldots, \boldsymbol{h}<em b_t="b_t">{e_h}\right) \
+\boldsymbol{x}_i^t=\operatorname{MaxPool}\left(\boldsymbol{h}</em>, \ldots, \boldsymbol{h}<em _left_E_h_right_="\left[E_h\right]">{e_t}\right) \
+\boldsymbol{x}_i=\phi\left(\left\langle\boldsymbol{h}</em> \mid \boldsymbol{h}_{\left[E_t\right]}\right\rangle\right),
+\end{gathered}
+$$
+<span class="arithmatex">\(&lt;\cdot|\cdot&gt;\)</span> 表示拼接符，<span class="arithmatex">\(b_{h},e_{h},b_{t},e_{t}\)</span>给出头实体和尾实体的标记，<span class="arithmatex">\(\boldsymbol{h}_{\left[E_h\right]} \mid \boldsymbol{h}_{\left[E_t\right]}\)</span> 表示<span class="arithmatex">\([E_{h}],[E_{t}]\)</span>的隐藏状态，<span class="arithmatex">\(\phi\)</span> 是tanh线性激活层，将拼接后的维度由2n降维为n</p>
+<h3 id="_6">上下文蒸馏<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
+<p>对于无关特征即多余上下文，给出输出<span class="arithmatex">\(h_1,\dots,h_n\)</span>使用可训练的查询代码q
+$$
+\begin{gathered}
+\left(\alpha_1, \ldots, \alpha_n\right)=\operatorname{Softmax}\left(\boldsymbol{q} \cdot \boldsymbol{h}_1, \ldots, \boldsymbol{q} \cdot \boldsymbol{h}_n\right) \
+\boldsymbol{x}_i<sup>*=\sum_{j=1}</sup>n \alpha_j \cdot \boldsymbol{h}_j
+\end{gathered}
+$$
+关系分类器不能根据无关特征来区分输入实例的关系，因此引入Gradient Reverse Lyer （GRL）梯度反向层，和优化器q来欺骗关系分类器。
+$$
+\begin{gathered}
+\text { prob }_i=\operatorname{Softmax}\left(\operatorname{GRL}\left(\boldsymbol{x}_i^<em>\right) \cdot W+b\right) \
+\mathcal{L}_{c e, i}=\operatorname{CrossEntropy}\left(y_i, \text { prob }_i\right)
+\end{gathered}
+$$
+其中 W 和 b 是关系分类器的权重和偏差。 xi</em> 在被输入分类器之前经过 GRL 层。 GRL 不影响前向传播，但通过乘以 −λ 来改变反向传播期间的梯度符号。
+也就是说，随着训练的进行，分类器通过梯度下降来优化以减少<span class="arithmatex">\(\mathcal{L}_{c e, i}\)</span>，而查询代码q通过梯度上升来优化以增加<span class="arithmatex">\(\mathcal{L}_{c e, i}\)</span>,i，直到xi中不包含关系特征. </p>
+<p>而对上下文的蒸馏通过投影到特征空间来完成
+对于给定句子表示<span class="arithmatex">\(x_{i}\)</span> 和关系无关特征<span class="arithmatex">\(x^{*}\)</span> ,
+$$
+\begin{gathered}
+\hat{\boldsymbol{x}}_i=\operatorname{Proj}\left(\boldsymbol{x}_i, \boldsymbol{x}_i^*\right) \
+\operatorname{Proj}(\boldsymbol{a}, \boldsymbol{b})=\frac{\boldsymbol{a} \cdot \boldsymbol{b}}{|\boldsymbol{b}|} \cdot \frac{\boldsymbol{b}}{|\boldsymbol{b}|},
+\end{gathered}
+$$
+<span class="arithmatex">\(<span class="arithmatex">\(x^{p}_{i}=x_{i}-\hat{x}_{i}\)</span>\)</span> </p>
+<p>因为描述编码可以重复使用，所以计算复杂度由O(mn)降低为O(m+n)。（m，n表示描述和输入实例的数量）</p>
+<h2 id="_7">匹配模块<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h2>
+<p>匹配模块负责输入<span class="arithmatex">\(x_{i}\)</span>和描述<span class="arithmatex">\(d\)</span>之间的交互</p>
+<p>实体匹配的得分直接由余弦相似度计算
+<span class="arithmatex">\(<span class="arithmatex">\(\cos(\mathbf{x}_{i}^{h},\mathbf{d}^{h}),\cos(\mathbf{x}_{i}^{t},\mathbf{d}^{t})\)</span>\)</span></p>
+<p>而为了减少输入实例<span class="arithmatex">\(x_{i}\)</span>中多余文本信息的影响，匹配文本表示<span class="arithmatex">\(x_{i}\)</span> 将输入一个蒸馏模块。蒸馏模块将<span class="arithmatex">\(x_{i}\)</span>投影到相关特征的正交空间中，以得到更新后的匹配文本表示<span class="arithmatex">\(x_{i}^{p}\)</span> ,然后计算匹配得分，仍然是余弦相似度<span class="arithmatex">\(cos(x_{i}^{p},d)\)</span></p>
+<p>匹配分数为：
+$$
+\begin{aligned}
+s\left(x_i, d\right)= &amp; \alpha \cdot \cos \left(\boldsymbol{x}_i^h, \boldsymbol{d}^h\right)+\alpha \cdot \cos \left(\boldsymbol{x}_i^t, \boldsymbol{d}^t\right) \
+&amp; +(1-2 \cdot \alpha) \cdot \cos \left(\boldsymbol{x}_i^p, \boldsymbol{d}\right)
+\end{aligned}
+$$</p>
+<p><span class="arithmatex">\(\alpha\)</span> 是超参数，
+使用margin loss
+$$
+\begin{gathered}
+\delta_i=s\left(x_i, d_{y_i}\right)-\max <em i="i" m_="m,">{j \neq y_i}\left(s\left(x_i, d_j\right)\right) \
+\mathcal{L}</em>=\max \left(0, \gamma-\delta_i\right),
+\end{gathered}
+$$
+<span class="arithmatex">\(\gamma&gt;0\)</span> 是超参数，表示正对的匹配分数必须高于最接近的负对的匹配分数。 
+最终的训练目标函数为
+$$
+\mathcal{L}=\frac{1}{N} \sum_{i=1}^N\left(\mathcal{L}<em i="i" m_="m,">{c e, i}+\mathcal{L}</em>\right)
+$$</p>
+<h1 id="_8">实验<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h1>
+<h2 id="_9">数据集<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h2>
+<p>FewRel (Han et al., 2018) 是从维基百科收集并由众包工作者进一步手工注释的few-shot关系分类数据集，其中包含 80 个关系，每个关系包含 700 个句子</p>
+<p>Wiki-ZSL（Chen 和 Li，2021）源自维基数据知识库，由 113 种关系类型的 93,383 个句子组成。与FewRel数据集相比，Wiki-ZSL具有更丰富的关系信息，但由于它是由远程监督生成的，因此原始数据中不可避免地存在更多噪声</p>
+<p>随机选择5个关系为验证集，5/10/15个关系为测试集的未见关系，</p>
+<h2 id="_10">对比模型<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h2>
+<ul>
+<li>R-BERT（Wu 和 He，2019b）。一种 SOTA 监督 RE 方法。继 Chen 和 Li（2021）之后，我们通过使用句子表示来执行最近邻搜索并生成零样本预测，使其适应零样本设置。 </li>
+<li>ESIM（Levy 等人，2017）。一种经典的基于匹配的 ZeroRE 方法，它使用 Bi-LSTM 对输入和标签描述进行编码。 ZS-BERT（Chen 和 Li，2021）。一种基于SOTA siamese的ZeroRE方法，采用BERT作为编码器，对输入和关系描述分别进行编码。除了分类损失之外，还使用基于度量的损失来优化表示空间以改进最近邻搜索。 </li>
+<li>PromptMatch（Sainz 等人，2021）。一种基于 SOTA 完全编码的 ZeroRE 方法，采用 BERT 对输入对的串联进行编码并对其细粒度语义交互进行建模。 </li>
+<li>REPrompt（Chia 等人，2022）。该基线是一种基于 seq2seq 的竞争性 ZeroRE 方法。它使用 GPT-2 生成这些关系的伪数据来微调模型。我们使用 NoGen 来表示没有数据增强的结果。</li>
+</ul>
+<h1 id="_11">结果<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h1>
+<p>分类损失只关注已知关系的区分，R-bert等监督方法再ZeroRE效果差，而siames scheme限制了输入和关系描述的字级别的交互，导致性能不佳，而本文通过细粒度匹配进行显式建模来提高效果。</p>
+<p>和使用promptmatch，REPrompt这种完整的隐式建模对比，效果仍然好，可能原因是relational matching pattern，
+作为一种归纳偏差，减少了训练集种可见关系的过拟合，因此泛化性能更好。</p>
+<p>实验结果：</p>
+<p>![[Pasted image 20231015132843.png]]</p>
+<p>消融实验
+![[Pasted image 20231015132823.png]]</p>
+<p>更改encoder对数据集上的表现的影响
+![[Pasted image 20231015133110.png]]</p>
+<p>使用上下文蒸馏和归因技术来减少无关上下文的影响，实体匹配分数提供更多的信息</p>
+<p>![[Pasted image 20231015133350.png]]</p>
+<p>超参数gamma
+![[Pasted image 20231015133727.png]]</p>
+<p>持续增大，效果不差，模型鲁棒性好</p>
+<h1 id="_12">改进<a class="headerlink" href="#_12" title="Permanent link">&para;</a></h1>
+<p>对于抽象关系，没有明确实体类型很难识别。
+P460:said_to_be_the_same 
+F1：0.03</p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2023赵启明
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/DylanMing/library" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.top", "navigation.path", "search.share", "search.suggest", "search.highlight"], "search": "../../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.94c44541.min.js"></script>
+      
+        <script src="../../javascripts/extra.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>
