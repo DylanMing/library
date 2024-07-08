@@ -55,9 +55,13 @@ theme:
 # repo_name: Wcowin.github.io # 右上角的名字
 
 # [Navigtion]
+# 导航树，记得后面文件需要加路径
 nav: 
   - 关系抽取:
-    - Revisiting Relation Extraction in the era of Large Language Models: 关系抽取/Revisiting Relation Extraction in the era of Large Language Models.md
+    - Revisiting Relation Extraction in the era of Large Language Models: "关系抽取/Revisiting Relation Extraction in the era of Large Language Models.md"
+    - RE-Matching： A Fine-Grained Semantic Matching Method for Zero-Shot Relation Extraction: "关系抽取/RE-Matching： A Fine-Grained Semantic Matching Method for Zero-Shot Relation Extraction.md"
+  - 基础知识:
+    - 机器学习评估指标: "基础知识/evaluation metrics.md"
 
 
 
@@ -69,7 +73,7 @@ extra:
   # generator: false  #删除页脚显示“使用 MkDocs 材料制造”
   feedback:
 
-  social:
+  social: #联系方式之类的 
   #   - icon: fontawesome/brands/twitter 
   #     link: https://twitter.com/wcowin_
     - icon: fontawesome/brands/github
