@@ -1,2 +1,6 @@
 # MkDocs build output
 mkdocs/site/
+
+# 本地虚拟环境
+.venv/
+mkdocs/.venv/
