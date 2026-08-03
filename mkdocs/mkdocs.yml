@@ -1,6 +1,6 @@
 #[Info]
 site_name: Xiaoming's library
-site_url: #网站地址
+site_url: https://dylanming.github.io/library/
 site_author: xiaoming
 #[UI]
 theme:
