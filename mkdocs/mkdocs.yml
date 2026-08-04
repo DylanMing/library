@@ -130,7 +130,6 @@ nav:
     - '并查集': 'leetcode/并查集.md'
     - '排序算法': 'leetcode/排序算法.md'
   - '关系抽取':
-    - '': '关系抽取/index.md'
     - 'Re Matching： A Fine Grained Semantic Matching Method For Zero Shot Relation Extraction': '关系抽取/RE-Matching： A Fine-Grained Semantic Matching Method for Zero-Shot Relation Extraction.md'
     - 'Revisiting Relation Extraction In The Era Of Large Language Models': '关系抽取/Revisiting Relation Extraction in the era of Large Language Models.md'
   - '基础知识':
@@ -138,7 +137,6 @@ nav:
   - '杂项':
     - "let's Encrypt 免费证书": "杂项/let's Encrypt 免费ssl证书.md"
     - "ddns-go 动态域名解析": "杂项/ddns-go 动态域名解析.md"
-  - '': 'index.md'
 
 
 

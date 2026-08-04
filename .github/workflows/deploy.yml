@@ -26,11 +26,11 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.x'
-      - name: 安装 mkdocs-material
-        run: pip install mkdocs-material
+      - name: 安装 zensical
+        run: pip install zensical
       - name: 构建站点
         working-directory: mkdocs  # mkdocs.yml 所在目录
-        run: mkdocs build
+        run: zensical build -f mkdocs.yml
       - name: 上传 Pages 构件
         uses: actions/upload-pages-artifact@v3
         with:

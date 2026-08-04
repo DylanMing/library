@@ -1,6 +1,6 @@
 # library
 
-销明的个人知识库，使用 [MkDocs](https://www.mkdocs.org/) + [Material 主题](https://squidfunk.github.io/mkdocs-material/) 构建，通过 GitHub Actions 自动部署到 GitHub Pages。
+销明的个人知识库，使用 [Zensical](https://zensical.org/) 构建（Material for MkDocs 团队出品的新一代静态站点生成器），通过 GitHub Actions 自动部署到 GitHub Pages。
 
 线上地址：<https://dylanming.github.io/library/>
 
@@ -20,35 +20,35 @@ git push origin main
 
 ## 本地预览（可选）
 
-改完想先在本地看效果，用 mkdocs 的实时预览服务器。
+改完想先在本地看效果，用 zensical 的实时预览服务器。
 
-首次使用需配置环境（Python 虚拟环境 + mkdocs-material）：
+首次使用需配置环境（Python 虚拟环境 + zensical）：
 
 ```bash
 cd mkdocs
 python3 -m venv .venv
-.venv/bin/pip install mkdocs-material
+.venv/bin/pip install zensical
 ```
 
 启动预览（修改 markdown 会自动刷新浏览器）：
 
 ```bash
-.venv/bin/mkdocs serve
+.venv/bin/zensical serve -f mkdocs.yml
 ```
 
-浏览器打开 <http://127.0.0.1:8000>，按 `Ctrl+C` 退出。
+浏览器打开 <http://127.0.0.1:8000/library/>（zensical 按 site_url 在子路径预览，与线上一致；根路径会自动重定向到此），按 `Ctrl+C` 退出。
 
 仅检查能否构建成功（不启动服务）：
 
 ```bash
-.venv/bin/mkdocs build --strict
+.venv/bin/zensical build -f mkdocs.yml --strict
 ```
 
 ## 目录结构
 
 ```
 mkdocs/
-├── mkdocs.yml          # 站点配置：主题、导航(nav)、插件、扩展
+├── mkdocs.yml          # 站点配置：主题、导航(nav)、插件、扩展（zensical 直接读取）
 ├── docs/               # 所有 markdown 笔记
 │   ├── CSbase/         # 计算机基础
 │   ├── leetcode/       # LeetCode 题解
